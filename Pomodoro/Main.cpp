@@ -5,6 +5,7 @@
 #include <iostream>
 #include <Windows.h>
 #include "ClickButton.h"
+#include "ToDoListBox.h"
 using namespace sf;
 using namespace std;
 
@@ -118,7 +119,7 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
+		/*
 		int timer = clock.getElapsedTime().asSeconds();
 		if (timer > 0) {
 			seconds--;
@@ -130,7 +131,7 @@ int main()
 		if (seconds == 0) { sound.play(); seconds = 301; CurrentTask = "Pause   "; }
 
 		text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
-		
+		*/
 		window.clear();
 
 		window.draw(background);
