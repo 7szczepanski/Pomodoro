@@ -4,13 +4,13 @@
 #include <string>
 #include <iostream>
 #include <Windows.h>
+#include "ClickButton.h"
 using namespace sf;
 using namespace std;
 
 
 
-int width = 220;
-int height = 60;
+
 
 string itos(int c) {
 	string st;
@@ -41,33 +41,61 @@ void makeWindowOnTop(sf::RenderWindow& window)
 }
 int main()
 {
-	FreeConsole();
-
+	int width = 800;
+	int height = 500;
+	/*
+	//FreeConsole();
+	/////////////////////////////////////////////////////////////       SIZES OF WINDOW
+	int width = VideoMode::getDesktopMode().width / 3;
+	int height = VideoMode::getDesktopMode().height / 3;
+	int widthS = VideoMode::getDesktopMode().width / 8;// cout << widthS << "\n";
+	int heightS = VideoMode::getDesktopMode().height / 18;// cout << heightS;
+	int currentW = widthS;
+	int currentH = heightS;
+	/////////////////////////////////////////////////////////////       Positions OF WINDOW
+	int posxL = VideoMode::getDesktopMode().width / 2-width/2;
+	int posyL = VideoMode::getDesktopMode().height / 2-height/2;
+	int posxS = VideoMode::getDesktopMode().width - widthS;
+	int posyS = VideoMode::getDesktopMode().height - heightS;
+	int currentPX = posxS / 2;// cout << currentPX;
+	int currentPY = posyS/2;
+	*/
 	int seconds = 1501;
 	sf::RenderWindow window(sf::VideoMode(width, height), "", sf::Style::None);
 	makeWindowOnTop(window);
-	window.setPosition(Vector2i(1920 - width, 1080 - height));
-	sf::RectangleShape background(Vector2f(width - 2, height - 2));
+	sf::RectangleShape background(Vector2f(800 - 2, 800 - 2));
 	background.setPosition(1, 1);
-	background.setFillColor(Color(51, 51, 51));
-	background.setOutlineColor(Color(124, 7, 25));
+	background.setFillColor(Color(42,62,80));
+	background.setOutlineColor(Color(34,49,63));
 	background.setOutlineThickness(1);
-
+	
 	sf::Font font;
-
 	if (!font.loadFromFile("roboto.ttf"))
 	{
 		// error...
 	}
+	////////////// BUTTONS
+	ClickButton settings;
+	ClickButton addtask;
+	settings.setSize(200, 200);
+	settings.setPosition(Vector2f(0,0));
+	settings.setLabel("Settings",font,22);
+	addtask.setColor("sunflower");
+	addtask.setSize(200, 200);
+	addtask.setPosition(Vector2f(200,0));
+	addtask.setLabel("Add Task", font,22);
+	//////////////////////
 
+	
+
+	Vector2f mousePositionFloat;
 	sf::Text text;
-	text.setCharacterSize(38);
-	text.setPosition(Vector2f(width / 2, height / 2-10));
+	text.setCharacterSize(26);
+	text.setPosition(Vector2f(0 + 800/2,0+800/2-5)); 
 	text.setFont(font);
 	text.setString("Pomodoro");
-	text.setColor((Color::White));
-
-
+	text.setColor(Color::White);
+	cout << text.getPosition().x;
 	Clock clock;
 	SoundBuffer buffer;
 
@@ -102,11 +130,20 @@ int main()
 		if (seconds == 0) { sound.play(); seconds = 301; CurrentTask = "Pause   "; }
 
 		text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
-		//cout << text.getLocalBounds().width << "    " << text.getLocalBounds().height << endl;
+		
 		window.clear();
 
 		window.draw(background);
-
+		settings.setColor("pomegranate");
+		mousePositionFloat = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+		if (settings.cBox.contains(mousePositionFloat)) {
+			settings.setColor("alizarin");
+			if (Mouse::isButtonPressed(Mouse::Left)) {
+				//open settings rectangle
+			}
+		}
+		settings.show(window);
+		addtask.show(window);
 		window.draw(text);
 		window.display();
 	}
